@@ -1,4 +1,5 @@
-Hi, this is a project I was given to do for my Internship Summer 2025 at Splendin Software Private Unlimited.
+Hi, this is a project I was given to do for my Internship Summer 2025 at Splendin Software Private Unlimited.<br>
+Note: This code was implemented as a one-time migration
 <h2>Objective</h2>
 <h4>Database Migration from MySQL to MongoDB</h4>
 <h2>Planning and Process</h2>
