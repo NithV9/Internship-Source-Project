@@ -8,6 +8,7 @@ from collections import defaultdict
 #---------------------Database connections
 load_dotenv()
 
+#MySQL DB Connection
 sql_conn = mysql.connector.connect(
     host="localhost",
     user=os.getenv('DB_USER'),
@@ -18,6 +19,7 @@ if(sql_conn):
     print("Successfully connected to sql database")
 sql_cursor = sql_conn.cursor(dictionary=True)
 
+#MongoDB Connection
 mongo_client = MongoClient('localhost', 27017)
 mongo_db = mongo_client[os.getenv('DB_NAME')]
 mongo_market = mongo_db['market']
@@ -106,7 +108,7 @@ for product in product_data:
     }
     product_documents.append(product_doc)
 
-#Forecast and sales product documents
+#Forecast and Sales Arrays in Product documents
 forecast_product_doc={
     "_id":ObjectId(),
     "product":forecast_product_array,
@@ -130,10 +132,10 @@ customer_data = sql_cursor.fetchall()
 for customer in customer_data:
     customer["_id"] = ObjectId()
 
-# customer_ids = [customer["_id"] for customer in customer_data]
+
 market_documents=[]
 customer_documents=[]
-#create ids
+#Create new MongoDB ids
 for market in market_data:
     market_customers=[]
     marketID=ObjectId()
@@ -198,16 +200,18 @@ for customer in customer_documents:
             }
             sales_market_array.append(sales_doc)
 
+#Forecast Doc containing all forecast records
 forecast_market_doc={
     "_id":ObjectId(),
     "market":forecast_market_array,
 }
-
+#Sales Doc containing all sales records
 sales_market_doc={
     "_id":ObjectId(),
     "market":sales_market_array,
 }
 
+#Final documents for insertion into MongoDB database
 mongo_market.insert_many(market_documents)
 mongo_customers.insert_many(customer_documents)
 mongo_forecast.insert_one(forecast_market_doc)
