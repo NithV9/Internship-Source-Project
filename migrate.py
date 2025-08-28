@@ -41,9 +41,11 @@ product_documents=[]
 sql_cursor.execute("SELECT * FROM dim_product")
 product_data=sql_cursor.fetchall()
 
+#Adding MongoDB ids to product data
 for product in product_data:
     product["_id"]=ObjectId()
 
+#Running sql queries to fetch data and use dictionaries to map relationships between different sets of data
 sql_cursor.execute("SELECT * FROM fact_forecast_monthly")
 forecast_all = sql_cursor.fetchall()
 
@@ -63,6 +65,7 @@ for s in sales_all:
 forecast_product_array=[]
 sales_product_array=[]
 
+#Creating Product document schema
 for product in product_data:
     product_forecastArray=[]
     product_salesArray=[]
@@ -118,6 +121,7 @@ sales_product_doc={
     "product":sales_product_array,
 }
 
+#Inserting Product, Forecast, and Sales documents in their respective collections
 mongo_product.insert_many(product_documents)
 mongo_forecast.insert_one(forecast_product_doc)
 mongo_sales.insert_one(sales_product_doc)
