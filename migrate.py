@@ -10,7 +10,7 @@ load_dotenv()
 
 #MySQL DB Connection
 sql_conn = mysql.connector.connect(
-    host="localhost",
+    host=os.getenv('DB_HOST'),
     user=os.getenv('DB_USER'),
     password=os.getenv('DB_PASSWORD'),
     database=os.getenv('DB_NAME')
@@ -20,7 +20,7 @@ if(sql_conn):
 sql_cursor = sql_conn.cursor(dictionary=True)
 
 #MongoDB Connection
-mongo_client = MongoClient('localhost', 27017)
+mongo_client = MongoClient(os.getenv('DB_HOST'), os.getenv('DB_PORT'))
 mongo_db = mongo_client[os.getenv('DB_NAME')]
 mongo_market = mongo_db['market']
 mongo_product = mongo_db['product']
